@@ -2,13 +2,15 @@ const express = require('express');
 const router = express.Router();
 const transporter = require('../nodemailer')
 
+
 const inputParameterValidation = ({ name, email, subject, message }) => {
     if (!name || !email || !subject || !message) {
         throw new Error('Missing required input parameters')
     }
 }
 
-router.post('/', (req, res, next) => {
+// POST results to db and send email
+router.post('/', async (req, res, next) => {
     const { name, email, subject, message } = req.body
 
     inputParameterValidation({ name, email, subject, message })
