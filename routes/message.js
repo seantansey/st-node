@@ -10,7 +10,7 @@ const inputParameterValidation = ({ name, email, subject, message }) => {
     }
 }
 
-// POST results to db and send email
+// POST message to db and send email
 router.post('/', async (req, res, next) => {
     const { name, email, subject, message } = req.body
 
