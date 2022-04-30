@@ -7,7 +7,7 @@ var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var contactRouter = require('./routes/contact')
+var messageRouter = require('./routes/message')
 
 var app = express();
 
@@ -15,7 +15,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
     origin: 'http://localhost:8080'
@@ -23,6 +22,6 @@ app.use(cors({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/contact', contactRouter);
+app.use('/message', messageRouter);
 
 module.exports = app;

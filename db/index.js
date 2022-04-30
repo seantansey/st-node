@@ -9,38 +9,34 @@ const pool = new Pool({
 })
 
 module.exports = {
-    query: ({ sql, params, callback }) => {
-        return pool.query(sql, params, callback)
+    query: (query) => {
+        return pool.query(query)
     },
-    transact: ({ sql, data }) => {
-        pool.connect((err, client, done) => {
-            const abort = (err) => {
-                if (err) {
-                    console.log('Error in transaction', err.stack)
-                    client.query('ROLLBACK', (err) => {
-                        if (err) {
-                            console.error('Error rolling back client', err.stack)
-                        }
-                        done() // closes client connection
-                    })
-                }
-                return !!err
-            }
-            client.query('BEGIN', (err) => {
-                console.log('begin')
-                if (abort(err)) return
-                client.query(sql, data, (err, res) => {
-                    if (abort(err)) return
-                    client.query('COMMIT', (err) => {
-                        console.log('commit')
-                        if (err) {
-                            console.log('Error commiting transaction', err.stack)
-                        }
-                        done()
-                    })
+    transact: (query) => {
+        return pool.connect()
+            .then((client) => {
+                return client.query('BEGIN')
+                    .then(() => {
+                        return client.query(query)
+                        .then(() => {
+                            return client.query('COMMIT')
+                            .then((result) => {
+                                client.release()
+                                return result
+                            })
+                        })
                 })
+                .catch((error) => {
+                    return client.query('ROLLBACK')
+                        .then(() => {
+                            throw new Error(error)
+                        })
+                        .catch((error) => {
+                            client.release()
+                            throw new Error(error)
+                        })
+                    })
             })
-        })
-    }
+    }     
 }
 

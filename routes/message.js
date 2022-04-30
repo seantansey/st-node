@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const transporter = require('../nodemailer')
+const db = require('../db')
 
 
 const inputParameterValidation = ({ name, email, subject, message }) => {
@@ -15,6 +16,11 @@ router.post('/', async (req, res, next) => {
 
     inputParameterValidation({ name, email, subject, message })
 
+    const query = {
+        text: 'INSERT INTO messages (name, email, subject, message) VALUES ($1, $2, $3, $4)',
+        values: [ name, email, subject, message ]
+    }   
+
     const options = {
         from: `"[STWeb] - ${name}" <${process.env.EMAIL_SENDER}>`,
         to: process.env.EMAIL_RECEIVER,
@@ -27,16 +33,15 @@ router.post('/', async (req, res, next) => {
         `
     }
 
-    return transporter.sendMail(options)
-        .then(data => {
-            console.log(data)
-            res.json({ status: 'success' })
-        })
-        .catch(error => {
-            // figure out error handling, use next?
-            console.log('error')
-            res.send(error)
-        })
+    return Promise.all([
+        transporter.sendMail(options),
+        db.query(query)
+    ]).then((values) => {
+        console.log(values)
+        res.status(201).json({ status: 'success' })
+    }).catch((error) => {
+        next(error)
+    })
 })
 
 module.exports = router;
