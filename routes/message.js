@@ -4,9 +4,9 @@ const transporter = require('../nodemailer')
 const db = require('../db')
 
 
-const inputParameterValidation = ({ name, email, subject, message }) => {
+const validateParams = ({ name, email, subject, message }) => {
     if (!name || !email || !subject || !message) {
-        throw new Error('Missing required input parameters')
+        return new Error('Missing required input parameters')
     }
 }
 
@@ -14,7 +14,8 @@ const inputParameterValidation = ({ name, email, subject, message }) => {
 router.post('/', async (req, res, next) => {
     const { name, email, subject, message } = req.body
 
-    inputParameterValidation({ name, email, subject, message })
+    const paramError = validateParams({ name, email, subject, message })
+    if (paramError) next(paramError)
 
     const query = {
         text: 'INSERT INTO messages (name, email, subject, message) VALUES ($1, $2, $3, $4)',
@@ -36,8 +37,7 @@ router.post('/', async (req, res, next) => {
     return Promise.all([
         transporter.sendMail(options),
         db.query(query)
-    ]).then((values) => {
-        console.log(values)
+    ]).then(() => {
         res.status(201).json({ status: 'success' })
     }).catch((error) => {
         next(error)
