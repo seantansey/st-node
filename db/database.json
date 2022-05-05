@@ -1,0 +1,21 @@
+{
+    "dev": {
+      "driver": "pg",
+      "user": { "ENV": "PG_USER" },
+      "password": { "ENV": "PG_PASSWORD" },
+      "host": { "ENV": "PG_HOST" },
+      "database": { "ENV": "PG_DATABASE" },
+      "port": { "ENV": "PG_PORT" }
+    },
+  
+    "acc": {
+      "driver": "pg",
+      "filename": ":memory:"
+    },
+  
+    "prod": {
+      "driver": "pg",
+      "user": "root",
+      "password": "root"
+    }  
+  }
