@@ -26,6 +26,18 @@ const getAllMessages = async (req, res, next) => {
         .catch((error) => next(error))
 }
 
+const getMessageById = async (req, res, next) => {
+    const query = {
+        text: 'SELECT * FROM messages WHERE id = $1',
+        values: [req.params.id]
+    }
+    return db.query(query)
+        .then(({ rows }) => {
+            res.status(200).json(rows)
+        })
+        .catch((error) => next(error))
+}
+
 
 const postMessage = async (req, res, next) => {
     const paramError = validateParams(req)
@@ -52,10 +64,12 @@ const postMessage = async (req, res, next) => {
 }
 
 router.get('/', getAllMessages)
+router.get('/:id', getMessageById)
 router.post('/', postMessage)
 
 module.exports = {
     getAllMessages,
+    getMessageById,
     postMessage,
-    messageRouter: router
+    messagesRouter: router
 }
