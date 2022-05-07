@@ -54,8 +54,8 @@ const postMessage = async (req, res, next) => {
     }   
 
     return Promise.all([
-        // sendEmail({ name, email, subject, message }),
-        db.transact(query)
+        sendEmail({ name, email, subject, message }),
+        // db.transact(query)
     ]).then(() => {
         res.status(201).json({ status: 'success' })
     }).catch((error) => {
