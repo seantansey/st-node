@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "migrate": "node-pg-migrate",
-    "dev": "node ./bin/server.js",
+    "start": "node ./bin/server.js",
     "test": "jest"
   },
   "dependencies": {
