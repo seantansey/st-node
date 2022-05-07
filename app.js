@@ -5,6 +5,7 @@ const logger = require('morgan')
 const cors = require('cors')
 const compression = require('compression')
 
+const { indexRouter } = require('./routes')
 const { messagesRouter } = require('./routes/messages')
 
 const app = express()
@@ -18,6 +19,7 @@ app.use(cors({
 }))
 app.use(compression())
 
+app.use('/', indexRouter)
 app.use('/messages', messagesRouter)
 
 module.exports = app
