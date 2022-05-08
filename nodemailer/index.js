@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer')
 
 
-
 const transporter = nodemailer.createTransport({
     host: "smtp.zoho.com",
     port: 587,
@@ -14,7 +13,7 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = ({ name, email, subject, message }) => {
     const options = {
-        from: `"[STWeb] - ${name}" <${process.env.EMAIL_SENDER}>`,
+        from: `"[Web Inquiry]" <${process.env.EMAIL_SENDER}>`,
         to: process.env.EMAIL_RECEIVER,
         subject,
         html: `

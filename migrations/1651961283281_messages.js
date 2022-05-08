@@ -29,4 +29,9 @@ exports.up = pgm => {
     })
 };
 
-exports.down = pgm => {};
+exports.down = pgm => {
+    pgm.dropTable('messages', {
+        ifExists: true,
+        cascade: true
+    })
+};
