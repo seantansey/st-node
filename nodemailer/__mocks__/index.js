@@ -1,3 +1,3 @@
-const sendEmail = jest.fn()
+const sendEmail = jest.fn(() => Promise.resolve())
 
 module.exports = sendEmail

@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const indexResponse = (req, res, next) => {
-    res.send('st-web')
+    res.send('API is running')
 }
 
 router.get('/', indexResponse)
