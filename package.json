@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "migrate": "$DATABASE_URL node-pg-migrate",
+    "migrate": "node-pg-migrate",
     "start": "node ./bin/server.js",
     "test": "jest"
   },
