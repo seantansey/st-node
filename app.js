@@ -15,10 +15,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(cors({
-    origin: [
-        'https://seantansey.com',
-        'https://www.seantansey.com'
-    ]
+    origin: [ 'https://www.seantansey.com' ]
 }))
 app.use(compression())
 

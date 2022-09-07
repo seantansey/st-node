@@ -6,15 +6,15 @@ exports.up = pgm => {
     pgm.createTable('messages', {
         id: 'id',
         name: {
-            type: 'varchar(30)',
+            type: 'varchar(100)',
             notNull: true
         },
         email: {
-            type: 'varchar(30)',
+            type: 'varchar(100)',
             notNull: true
         },
         subject: {
-            type: 'varchar(30)',
+            type: 'varchar(100)',
             notNull: true
         },
         message: {
