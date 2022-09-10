@@ -4,10 +4,11 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const cors = require('cors')
 const compression = require('compression')
-const utils = require('./utils')
 
-const { indexRouter } = require('./routes')
 const { messagesRouter } = require('./routes/messages')
+const { healthRouter } = require('./routes/health')
+const { authenticationRouter } = require('./routes/authentication')
+const { verifyToken } = require('./utils/token')
 
 const app = express()
 
@@ -16,11 +17,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(cors({
-    origin: utils.validURLs
+    origin: process.env.WEB_ADDRESS
 }))
 app.use(compression())
 
-app.use('/', utils.domainCheck, indexRouter)
-app.use('/messages', utils.domainCheck, messagesRouter)
+app.use('/authenticate', authenticationRouter)
+app.use('/health', healthRouter)
+app.use('/messages', verifyToken, messagesRouter)
 
 module.exports = app

@@ -72,14 +72,14 @@ describe('/message', () => {
             const res = mockResponse()
             const next = mockNext()
             await postMessage(req, res, next)
-            expect(next).toHaveBeenCalledWith(new Error ('Missing required input parameters'))
+            expect(next).toHaveBeenCalledWith(new Error ('Missing required parameters'))
         })
         test('should throw error when missing input params', async () => {
             const req = mockRequest({ name: 'mockName' })
             const res = mockResponse()
             const next = mockNext()
             await postMessage(req, res, next)
-            expect(next).toHaveBeenCalledWith(new Error ('Missing required input parameters'))
+            expect(next).toHaveBeenCalledWith(new Error ('Missing required parameters'))
         })
         test('should call sendEmail with params', async () => {
             const req = mockRequest({ 
