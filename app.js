@@ -7,7 +7,6 @@ const compression = require('compression')
 
 const { messagesRouter } = require('./routes/messages')
 const { healthRouter } = require('./routes/health')
-const { usersRouter } = require('./routes/users')
 const { authenticationRouter } = require('./routes/authentication')
 const { verifyToken } = require('./utils/token')
 
@@ -25,6 +24,5 @@ app.use(compression())
 app.use('/authenticate', authenticationRouter)
 app.use('/health', healthRouter)
 app.use('/messages', verifyToken, messagesRouter)
-app.use('/users', verifyToken, usersRouter)
 
 module.exports = app
