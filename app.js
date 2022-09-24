@@ -9,8 +9,8 @@ const { apiKeyRouter } = require('./routes/api-keys')
 const { healthRouter } = require('./routes/health')
 const { messagesRouter } = require('./routes/messages')
 
-const { authorizeAdmin } = require('./utils/authorizeAdmin')
-const { authorizeAPIKey } = require('./utils/authorizeAPIKey')
+const { authorizeAdmin } = require('./middleware/authorizeAdmin')
+const { authorizeAPIKey } = require('./middleware/authorizeAPIKey')
 
 const app = express()
 
