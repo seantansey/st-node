@@ -22,7 +22,7 @@ const postUser = async (req, res, next) => {
 
             return db.transact(query)
                 .then(() => {
-                    res.status(201).json({ status: 'user created successfully'})
+                    res.status(201).json({ message: 'user created' })
                 })
                 .catch((error) => {
                     next(error)

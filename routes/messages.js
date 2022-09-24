@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const sendEmail = require('../nodemailer')
 const db = require('../db')
-const { validateParams } = require('../utils/params')
+const { validateParams } = require('../middleware/params')
 
 
 const getAllMessages = (req, res, next) => {
@@ -43,7 +43,7 @@ const postMessage = (req, res, next) => {
         sendEmail({ name, email, subject, message }),
         db.transact(query)
     ])
-        .then(() => res.status(201).json({ status: 'success' }))
+        .then(() => res.status(201).json({ message: 'message sent' }))
         .catch((error) => next(error))
 }
 

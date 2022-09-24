@@ -18,11 +18,11 @@ module.exports = {
                 return client.query('BEGIN')
                     .then(() => {
                         return client.query(query)
-                        .then(() => {
+                        .then((res) => {
                             return client.query('COMMIT')
-                            .then((result) => {
+                            .then(() => {
                                 client.release()
-                                return result
+                                return res
                             })
                         })
                 })
