@@ -5,10 +5,12 @@ const logger = require('morgan')
 const cors = require('cors')
 const compression = require('compression')
 
-const { messagesRouter } = require('./routes/messages')
+const { apiKeyRouter } = require('./routes/api-keys')
 const { healthRouter } = require('./routes/health')
-const { authenticationRouter } = require('./routes/authentication')
-const { verifyToken } = require('./utils/token')
+const { messagesRouter } = require('./routes/messages')
+
+const { authorizeAdmin } = require('./middleware/authorizeAdmin')
+const { authorizeAPIKey } = require('./middleware/authorizeAPIKey')
 
 const app = express()
 
@@ -21,8 +23,9 @@ app.use(cors({
 }))
 app.use(compression())
 
-app.use('/authenticate', authenticationRouter)
+
+app.use('/api-key',authorizeAdmin, apiKeyRouter)
 app.use('/health', healthRouter)
-app.use('/messages', verifyToken, messagesRouter)
+app.use('/messages', authorizeAPIKey, messagesRouter)
 
 module.exports = app

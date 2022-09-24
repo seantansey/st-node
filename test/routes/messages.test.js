@@ -1,7 +1,7 @@
 const { getAllMessages, getMessageById, postMessage } = require('../../routes/messages')
 const sendEmail = require('../../nodemailer')
 const db = require('../../db')
-const { mockRequest, mockResponse, mockNext, mockError } = require('./utils')
+const { mockRequest, mockResponse, mockNext, mockError } = require('../utils')
 
 jest.mock('../../nodemailer/index.js')
 jest.mock('../../db/index.js')
@@ -117,7 +117,7 @@ describe('/message', () => {
                 values: [ 'mockName', 'mockEmail', 'mockSubject', 'mockMessage']
             })
         })
-        test('on success should call res.status and res.json', async () => {
+        test('should call res.status and res.json', async () => {
             const req = mockRequest({ 
                 body: {
                     name: 'mockName',
@@ -130,7 +130,7 @@ describe('/message', () => {
             const next = mockNext()
             await postMessage(req, res, next)
             expect(res.status).toHaveBeenCalledWith(201)
-            expect(res.json).toHaveBeenCalledWith({ status: 'success' })
+            expect(res.json).toHaveBeenCalledWith({ message: 'message sent' })
         })
         test('should catch any errors', async () => {
             const req = mockRequest({ 
